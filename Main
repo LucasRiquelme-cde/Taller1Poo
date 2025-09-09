@@ -1,0 +1,27 @@
+import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+public class Main {
+	public static void main(String[] args) throws IOException{
+		File archivo= new File("experimentos.txt");
+		Scanner scan= new Scanner(archivo);
+		int contExp= 0;
+		String nombres= "";
+		while(scan.hasNextLine()) {
+			String linea1= scan.nextLine();
+			String[] partes1= linea1.split(";");
+			String nombre= partes1[0];
+			nombres+= nombre+",";
+			contExp++;
+			
+		}
+		scan.close();
+		String[] listaNombres= new String[contExp];
+		String[] partes= nombres.split(",");
+		for(int i=0; i<contExp;i++) {
+			listaNombres[i]= partes[i];
+			System.out.println(listaNombres[i]);
+		}
+
+	}
+}
