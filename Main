@@ -69,7 +69,7 @@ public class Main {
 			do {
 				
 				System.out.println("Bienvenido Administrador ¿Qué desea hacer? (Ingrese Número):");
-				System.out.println("1) Ver la matriz comleta");
+				System.out.println("1) Ver la matriz completa");
 				System.out.println("2) Identificar el experimento con mejor F1-Score");
 				System.out.println("3) Calcular promedio global de cada métrica");
 				System.out.println("4) Comparar dos experimentos lado a lado");
