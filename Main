@@ -1,27 +1,195 @@
+package Taller1;
+//Lucas Riquelme /21943208-9 /ICCI / Matías Collao / 22060152-8 / ICCI//
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
-public class Main {
-	public static void main(String[] args) throws IOException{
-		File archivo= new File("experimentos.txt");
-		Scanner scan= new Scanner(archivo);
-		int contExp= 0;
-		String nombres= "";
-		while(scan.hasNextLine()) {
-			String linea1= scan.nextLine();
-			String[] partes1= linea1.split(";");
-			String nombre= partes1[0];
-			nombres+= nombre+",";
-			contExp++;
-			
-		}
-		scan.close();
-		String[] listaNombres= new String[contExp];
-		String[] partes= nombres.split(",");
-		for(int i=0; i<contExp;i++) {
-			listaNombres[i]= partes[i];
-			System.out.println(listaNombres[i]);
-		}
 
+public class Main {
+
+	public static void main(String[] args) throws IOException{
+//-------------------------------Lectura y Almacenimiento de Archivos .txt---------------------------------------------
+		File archivo_1 = new File("metricas.txt");
+		File archivo_2 = new File("experimentos.txt");
+		File archivo_3 = new File("predicciones.txt");
+		Scanner metricas = new Scanner(archivo_1);
+		Scanner experimentos = new Scanner(archivo_2);
+		Scanner predicciones = new Scanner(archivo_3);
+
+//--------------------------------Creción de listas y matriz--------------------------------------------
+		String[] lista_metricas = new String[4];
+		String[] lista_experimentos = new String[4];
+		String[] listColumna = {"TP","FP", "TN", "FN"};
+		int[][] matriz = new int[4][4];
+		
+//---------------------------------Introducción de metricas y experimentos en las listas-------------------------------------------
+		for (int i = 0; i < lista_metricas.length; i++) {
+			String linea = metricas.nextLine();
+			String linea_2 = experimentos.nextLine();
+			String[] parte = linea_2.split(";");
+			lista_metricas[i] = linea;
+			lista_experimentos[i] = parte[0];
+		}
+//----------------------------Lectura de Predicciones y almacenamiento de valores a matriz------------------------------------------------
+		while (predicciones.hasNextLine()) {
+			String linea_3 = predicciones.nextLine();
+			String[] partes_3 = linea_3.split(";");
+			int indice;
+			switch (partes_3[0]) {
+			case "Exp1": 
+				indice = funcion1(partes_3[1] , partes_3[2]);
+				matriz[0][indice] += 1;
+				break;
+			case "Exp2":
+				indice = funcion1(partes_3[1] , partes_3[2]);
+				matriz[1][indice] += 1;
+				break;
+			case "Exp3":
+				indice = funcion1(partes_3[1] , partes_3[2]);
+				matriz[2][indice] += 1;
+				break;
+			case "Exp4":
+				indice = funcion1(partes_3[1] , partes_3[2]);
+				matriz[3][indice] += 1;
+				break;	
+			}
+		}
+//-------------------------------Menus---------------------------------------------
+		Scanner s = new Scanner(System.in);
+		int menu = 0;                            //ver si hacer un try para evitar que se caiga si no se pone un número 
+		do {
+			System.out.println("Bienvenido, ¿a qué menú le gustaria acceder? (1 para Administrador, 2 para Usuario:");
+			menu = s.nextInt();
+			if (menu != 1 && menu != 2) {
+				System.out.println("Error, valor no valido");
+			}
+		} while (menu != 1 && menu != 2);
+		
+		int accion = 0;
+		if (menu == 1) {
+			do {
+				
+				System.out.println("Bienvenido Administrador ¿Qué desea hacer? (Ingrese Número):");
+				System.out.println("1) Ver la matriz comleta");
+				System.out.println("2) Identificar el experimento con mejor F1-Score");
+				System.out.println("3) Calcular promedio global de cada métrica");
+				System.out.println("4) Comparar dos experimentos lado a lado");
+				System.out.println("5) Comparar CSV con matriz de confusión generada");
+				System.out.println("6) Salir");
+				accion = s.nextInt();
+				
+				switch (accion) {
+				case 1:
+//----------------------------Muestra la matriz completa de Predicciones-------------------
+					for (int i = 0; i < lista_experimentos.length; i++) {      
+						
+						if (i == 0) {
+							System.out.print("     ");
+							for (int j = 0; j < matriz.length; j++) {
+								System.out.printf("%4s" , listColumna[j]);
+							}
+							System.out.println();
+						}
+						
+						System.out.print("Exp" + (i + 1) + " ");
+						
+						for (int j = 0; j < listColumna.length; j++) {
+							System.out.format("%4d", matriz[i][j]);
+						}
+						System.out.println();
+					}
+					System.out.println(" ");
+					break;
+//----------------------------Identifica el exp con mejor F1-score-------------------
+				case 2:
+					
+					break;
+//----------------------------Calcula el promedio global de cada métrica-------------------
+				case 3:
+					
+					break;
+//----------------------------Comparar dos exp lado a lado-------------------
+				case 4:
+					
+					break;
+//----------------------------Comparar CSV con matriz de confusión generada-------------------
+				case 5:
+					
+					break;
+//-------------------------------------------------------------------------------------					
+				default:
+					break;
+				}
+				
+			} while (accion != 6);
+			
+		} else {
+			do {
+				
+				System.out.println("Bienvenido Usuario ¿Qué deseas hacer? (Ingrese Número):");
+				System.out.println("1) Ver lista de experimentos");
+				System.out.println("2) Mostrar matriz de confusión de un experimento");
+				System.out.println("3) Ver métricas de un experimento");
+				System.out.println("4) Ver promedio de Accuracy de todos los modelos");
+				System.out.println("5) Salir");
+				accion = s.nextInt();
+				
+				switch (accion) {
+//----------------------------Muestra la lista de experimento-------------------
+				case 1:
+					
+					break;
+//----------------------------Muestra matriz de confusión de un experimento------------------
+				case 2:
+					for (int i = 0; i < lista_experimentos.length; i++) {      	
+						if (i == 0) {
+							System.out.print("     ");
+							for (int j = 0; j < matriz.length; j++) {
+								System.out.printf("%4s" , listColumna[j]);
+							}
+							System.out.println();
+						}
+						System.out.print("Exp" + (i + 1) + " ");
+						for (int j = 0; j < listColumna.length; j++) {
+							System.out.format("%4d", matriz[i][j]);
+						}
+						System.out.println();
+					}
+					System.out.println(" ");
+					break;
+//----------------------------Muestra las métricas de un experimento-------------------
+				case 3:
+					
+					break;
+//----------------------------Muestra el promedio de Accuracy de todos los modelos-------------------
+				case 4:
+					
+					break;
+//-------------------------------------------------------------------------------------					
+				default:
+					break;
+				}
+				
+			} while (accion != 6);
+		}
+//----------------------------Cierra los Scanners----------------------------------------------------------
+		s.close();
+		experimentos.close();
+		metricas.close();
+		predicciones.close();
+	}	
+//-------------------------------Función Privada para definir el índice--------------------------------------------
+	private static int funcion1(String v1, String v2) {
+		if (v1.equals("1") && v2.equals("1") ) {
+			return 0;	
+		}
+		else if (v1.equals("0") && v2.equals("1") ) {
+			return 1;
+		}
+		else if (v1.equals("0") && v2.equals("0") ) {
+			return 2;
+		}
+		else if (v1.equals("1") && v2.equals("0") ) {
+			return 3;
+		}
+		return 0;
 	}
-}
