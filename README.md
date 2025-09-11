@@ -1,2 +1,2 @@
-# Taller1Poo
-Repositorio para el primer taller de POO y/o los siguientes
+# Talleres POO
+Repositorio enfocado a subir y almacenar los talleres de POO
