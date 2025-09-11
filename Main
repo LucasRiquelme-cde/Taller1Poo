@@ -1,4 +1,4 @@
-package Taller1;
+package taller1;
 //Lucas Riquelme /21943208-9 /ICCI / Matías Collao / 22060152-8 / ICCI//
 import java.util.Scanner;
 import java.io.File;
@@ -14,12 +14,12 @@ public class Main {
 		Scanner metricas = new Scanner(archivo_1);
 		Scanner experimentos = new Scanner(archivo_2);
 		Scanner predicciones = new Scanner(archivo_3);
-
 //--------------------------------Creción de listas y matriz--------------------------------------------
+		
 		String[] lista_metricas = new String[4];
 		String[] lista_experimentos = new String[4];
 		String[] listColumna = {"TP","FP", "TN", "FN"};
-		int[][] matriz = new int[4][4];
+		int[][] matriz = new int[lista_experimentos.length][lista_metricas.length];
 		
 //---------------------------------Introducción de metricas y experimentos en las listas-------------------------------------------
 		for (int i = 0; i < lista_metricas.length; i++) {
@@ -29,6 +29,8 @@ public class Main {
 			lista_metricas[i] = linea;
 			lista_experimentos[i] = parte[0];
 		}
+		
+		
 //----------------------------Lectura de Predicciones y almacenamiento de valores a matriz------------------------------------------------
 		while (predicciones.hasNextLine()) {
 			String linea_3 = predicciones.nextLine();
@@ -52,10 +54,57 @@ public class Main {
 				matriz[3][indice] += 1;
 				break;	
 			}
+			
 		}
+//-------------------------------Matriz Metricas---------------------------------------------
+		double[][]matrizMetricas = new double[lista_experimentos.length][lista_metricas.length];
+		
+		
+		for (int i = 0; i < matriz.length; i++) {
+			double TP = matriz[i][0];
+			double FP = matriz[i][1];
+			double TN = matriz[i][2];
+			double FN = matriz[i][3];
+			
+			double accuracy = (TP + TN) / (TP + FP + TN + FN);
+			double precision = TP / (TP + FP);
+			double recall = TP / (TP + FN);
+			double f1Score = 2 * (precision * recall) / (precision + recall);
+			
+			matrizMetricas[i][0] = Math.round(accuracy * 100.0) / 100.0;
+			matrizMetricas[i][1] = Math.round(precision * 100.0) / 100.0;
+			matrizMetricas[i][2] = Math.round(recall * 100.0) / 100.0;
+			matrizMetricas[i][3] = Math.round(f1Score * 100.0) / 100.0;
+		}
+		
+		/*
+		for (int i = 0; i < lista_experimentos.length; i++) {      
+			if (i == 0) {
+				System.out.print("     ");
+				for (int j = 0; j < matriz.length; j++) {
+					System.out.printf("%4s" , listColumna[j]);
+				}
+				System.out.println();
+			}
+			System.out.print("Exp" + (i + 1) + " ");
+			for (int j = 0; j < listColumna.length; j++) {
+				System.out.format("%4d", matriz[i][j]);
+			}
+			System.out.println();
+		}
+		*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //-------------------------------Menus---------------------------------------------
 		Scanner s = new Scanner(System.in);
-		int menu = 0;                            //ver si hacer un try para evitar que se caiga si no se pone un número 
+		int menu = 0;                //ver si hacer un try para evitar que se caiga si no se pone un número 
 		do {
 			System.out.println("Bienvenido, ¿a qué menú le gustaria acceder? (1 para Administrador, 2 para Usuario:");
 			menu = s.nextInt();
@@ -69,7 +118,7 @@ public class Main {
 			do {
 				
 				System.out.println("Bienvenido Administrador ¿Qué desea hacer? (Ingrese Número):");
-				System.out.println("1) Ver la matriz completa");
+				System.out.println("1) Ver la matriz completa de Metricas");
 				System.out.println("2) Identificar el experimento con mejor F1-Score");
 				System.out.println("3) Calcular promedio global de cada métrica");
 				System.out.println("4) Comparar dos experimentos lado a lado");
@@ -80,20 +129,17 @@ public class Main {
 				switch (accion) {
 				case 1:
 //----------------------------Muestra la matriz completa de Predicciones-------------------
-					for (int i = 0; i < lista_experimentos.length; i++) {      
-						
-						if (i == 0) {
+					for (int f = 0; f < lista_experimentos.length; f++) {
+						if (f == 0) {
 							System.out.print("     ");
-							for (int j = 0; j < matriz.length; j++) {
-								System.out.printf("%4s" , listColumna[j]);
+							for (int j = 0; j < matrizMetricas.length; j++) {
+								System.out.printf("%4s" , lista_metricas[j] + "   ");
 							}
 							System.out.println();
 						}
-						
-						System.out.print("Exp" + (i + 1) + " ");
-						
-						for (int j = 0; j < listColumna.length; j++) {
-							System.out.format("%4d", matriz[i][j]);
+						System.out.print("Exp" + (f + 1) + " ");
+						for (int c = 0; c < lista_metricas.length; c++) {
+							System.out.print("   " + matrizMetricas[f][c] + "   ");
 						}
 						System.out.println();
 					}
@@ -170,7 +216,11 @@ public class Main {
 				}
 				
 			} while (accion != 6);
+			
+			
 		}
+		
+		
 //----------------------------Cierra los Scanners----------------------------------------------------------
 		s.close();
 		experimentos.close();
@@ -193,3 +243,8 @@ public class Main {
 		}
 		return 0;
 	}
+		
+		
+
+
+}
