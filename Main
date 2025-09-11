@@ -125,8 +125,7 @@ public class Main {
 				System.out.println("4) Comparar dos experimentos lado a lado");
 				System.out.println("5) Comparar CSV con matriz de confusión generada");
 				System.out.println("6) Salir");
-				System.out.println();
-				System.out.print("Ingrese una opcion: ");
+				System.out.print("\nIngrese una opcion: ");
 				accion = s.nextInt();
 				
 				switch (accion) {
@@ -183,7 +182,22 @@ public class Main {
 					break;
 //----------------------------Comparar dos exp lado a lado-------------------
 				case 4:
-					
+					for (int f = 0; f < lista_experimentos.length; f++) {
+						if (f == 0) {
+							System.out.print("     ");
+							for (int j = 0; j < matrizMetricas.length; j++) {
+								System.out.format("%4s" ,"       "+ lista_experimentos[j] );
+							}
+							System.out.println();
+						}
+						System.out.print(lista_metricas[f] );
+						for (int c = 0; c < lista_metricas.length; c++) {
+							System.out.format("    " + matrizMetricas[f][c] + "   ");
+						}
+						System.out.println();
+					}
+					System.out.println(" ");
+				
 					break;
 //----------------------------Comparar CSV con matriz de confusión generada-------------------
 				case 5:
@@ -205,12 +219,13 @@ public class Main {
 				System.out.println("3) Ver métricas de un experimento");
 				System.out.println("4) Ver promedio de Accuracy de todos los modelos");
 				System.out.println("5) Salir");
+				System.out.print("\nIngrese opcion: ");
 				accion = s.nextInt();
 				
 				switch (accion) {
 //----------------------------Muestra la lista de experimento-------------------
 				case 1:
-					System.out.println("Estos son los experimentos disponibles:");
+					System.out.println("\nEstos son los experimentos disponibles:");
 					for (int j = 0; j < lista_experimentos.length; j++) {
 						System.out.println("- "+lista_experimentos[j]+" ");
 					}
@@ -218,10 +233,12 @@ public class Main {
 					break;
 //----------------------------Muestra matriz de confusión de un experimento------------------
 				case 2:
-					System.out.println("Ingrese el experimento deseado:");
+					System.out.println();
+					System.out.println("Estos son los experimentos disponibles:");
 					for (int i = 0; i < lista_experimentos.length; i++) {
 						System.out.println(i + 1 + ") " + lista_experimentos[i]);
 					}
+					System.out.print("Ingrese el numero del cual quiere ver la matrz confusión: ");
 					int eleccion_2 = s.nextInt();
 					switch (eleccion_2) {
 					case 1:
@@ -258,10 +275,11 @@ public class Main {
 					break;
 //----------------------------Muestra las métricas de un experimento-------------------
 				case 3:
-					System.out.println("Ingrese el experimento deseado:");
+					System.out.println("\nEstos son los experimentos disponibles:");
 					for (int i = 0; i < lista_experimentos.length; i++) {
 						System.out.println(i + 1 + ") " + lista_experimentos[i]);
 					}
+					System.out.print("Elija el experimento del cual quiere ver las metricas:");
 					int eleccion = s.nextInt();
 					switch (eleccion) {
 					case 1:
@@ -282,9 +300,25 @@ public class Main {
 					
 					
 					break;
+			//----------cvs se lee con el mismo scanner------
 //----------------------------Muestra el promedio de Accuracy de todos los modelos-------------------
+				//suma todos los acuracys y divides
 				case 4:
-					
+					System.out.println();
+					double promedioAcurracy= 0;
+					int contador= 0;
+					int indiceAcurracy=0;
+					for (int i = 0; i < lista_metricas.length; i++) {
+						if (lista_metricas[i].equals("Acurracy")) {
+							indiceAcurracy= i;
+						}	
+					}
+					for (int i = 0; i < lista_metricas.length; i++) {
+						promedioAcurracy+= matrizMetricas[i][indiceAcurracy];
+						contador++;
+					}
+					System.out.println("El promedio global de Acurracy: "+ promedioAcurracy/contador);
+					System.out.println();
 					break;
 //-------------------------------------------------------------------------------------					
 				default:
