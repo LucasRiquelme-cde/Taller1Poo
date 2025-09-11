@@ -1,11 +1,11 @@
-package Taller1;
-import java.util.Iterator;
+package taller1;
 //Lucas Riquelme /21943208-9 /ICCI / Matías Collao / 22060152-8 / ICCI//
+import java.util.Iterator;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 
-public class main {
+public class Main {
 
 	public static void main(String[] args) throws IOException{
 //-------------------------------Lectura y Almacenimiento de Archivos .txt---------------------------------------------
@@ -105,7 +105,7 @@ public class main {
 		
 //-------------------------------Menus---------------------------------------------
 		Scanner s = new Scanner(System.in);
-		int menu = 0;                //ver si hacer un try para evitar que se caiga si no se pone un número 
+		int menu = 0;        //ver si hacer un try para evitar que se caiga si no se pone un número 
 		do {
 			System.out.println("Bienvenido, ¿a qué menú le gustaria acceder? (1 para Administrador, 2 para Usuario):");
 			menu = s.nextInt();
@@ -131,7 +131,7 @@ public class main {
 				
 				switch (accion) {
 				case 1:
-//----------------------------Muestra la matriz completa de Predicciones-------------------
+//----------------------------Muestra la matriz completa de Metricas-------------------
 					for (int f = 0; f < lista_experimentos.length; f++) {
 						if (f == 0) {
 							System.out.print("     ");
@@ -218,7 +218,29 @@ public class main {
 					break;
 //----------------------------Muestra matriz de confusión de un experimento------------------
 				case 2:
-					for (int i = 0; i < lista_experimentos.length; i++) {      	
+					System.out.println("Ingrese el experimento deseado:");
+					for (int i = 0; i < lista_experimentos.length; i++) {
+						System.out.println(i + 1 + ") " + lista_experimentos[i]);
+					}
+					int eleccion_2 = s.nextInt();
+					switch (eleccion_2) {
+					case 1:
+						printMatrizConfusion(matriz, eleccion_2, lista_experimentos);
+						break;
+					case 2:
+						printMatrizConfusion(matriz, eleccion_2, lista_experimentos);
+						break;
+					case 3:
+						printMatrizConfusion(matriz, eleccion_2, lista_experimentos);
+						break;
+					case 4:
+						printMatrizConfusion(matriz, eleccion_2, lista_experimentos);
+						break;
+					default:
+						break;
+					}
+					
+					/*for (int i = 0; i < lista_experimentos.length; i++) {      	
 						if (i == 0) {
 							System.out.print("     ");
 							for (int j = 0; j < matriz.length; j++) {
@@ -232,10 +254,32 @@ public class main {
 						}
 						System.out.println();
 					}
-					System.out.println(" ");
+					System.out.println(" ");*/
 					break;
 //----------------------------Muestra las métricas de un experimento-------------------
 				case 3:
+					System.out.println("Ingrese el experimento deseado:");
+					for (int i = 0; i < lista_experimentos.length; i++) {
+						System.out.println(i + 1 + ") " + lista_experimentos[i]);
+					}
+					int eleccion = s.nextInt();
+					switch (eleccion) {
+					case 1:
+						printMetricasExp(lista_experimentos, matrizMetricas, lista_metricas, eleccion);
+						break;
+					case 2:
+						printMetricasExp(lista_experimentos, matrizMetricas, lista_metricas, eleccion);
+						break;
+					case 3:
+						printMetricasExp(lista_experimentos, matrizMetricas, lista_metricas, eleccion);
+						break;
+					case 4:
+						printMetricasExp(lista_experimentos, matrizMetricas, lista_metricas, eleccion);
+						break;
+					default:
+						break;
+					}
+					
 					
 					break;
 //----------------------------Muestra el promedio de Accuracy de todos los modelos-------------------
@@ -246,7 +290,7 @@ public class main {
 				default:
 					break;
 				}
-			} while (accion != 6);
+			} while (accion != 5);
 		}
 //----------------------------Cierra los Scanners----------------------------------------------------------
 		s.close();
@@ -270,4 +314,54 @@ public class main {
 		}
 		return 0;
 	}
+//-------------------------------Función Privada para printear metricas de un exp--------------------------------------------
+	private static void printMetricasExp(String[] listaE , double[][]matrizM , String[] listaM, int valor ) {
+		System.out.println();
+		System.out.println("Metricas del experimento: " + listaE[valor - 1]);
+		
+		for (int j = 0; j < matrizM.length; j++) {
+			System.out.printf("%4s" , listaM[j] + "   ");
+		}
+		System.out.println();
+		for (int c = 0; c < listaM.length; c++) {
+				System.out.print(matrizM[valor - 1][c] + "       ");
+		}
+		System.out.println(" ");
+		System.out.println(" ");	
+	}
+	//-------------------------------Función Privada para printear matriz confusion de un exp--------------------------------------------
+	private static void printMatrizConfusion(int[][] mat, int valor, String[] listaE) {
+		System.out.println();
+		System.out.println("Matriz de confusión del experimento: " + listaE[valor - 1]);
+		String[] listaYN = {"Yes" , "No " };
+		int[][] matrizConfusion = new int[2][2];
+		for (int f = 0; f < 2; f++) {
+			for (int c = 0; c < 2; c++) {
+				matrizConfusion[0][c] = mat[valor - 1][c];
+				matrizConfusion[1][c] = mat[valor - 1][c + 2];
+			}
+		}
+		for (int f = 0; f < 2; f++) {
+			if (f == 0) {
+				System.out.print("    ");
+				for (int j = 0; j < listaYN.length; j++) {
+					System.out.printf("%4s" , listaYN[j]);
+				}
+				System.out.println();
+			}
+			System.out.print(listaYN[f]);
+			for (int c = 0; c < 2; c++) {
+				System.out.format("%4d",matrizConfusion[f][c]);
+			}
+			System.out.println();
+		}
+		System.out.println();
+		
+	}
+	
+	
+	
+	
+	
+	
 }
