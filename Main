@@ -1,10 +1,11 @@
-package taller1;
+package Taller1;
+import java.util.Iterator;
 //Lucas Riquelme /21943208-9 /ICCI / Matías Collao / 22060152-8 / ICCI//
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 
-public class Main {
+public class main {
 
 	public static void main(String[] args) throws IOException{
 //-------------------------------Lectura y Almacenimiento de Archivos .txt---------------------------------------------
@@ -106,7 +107,7 @@ public class Main {
 		Scanner s = new Scanner(System.in);
 		int menu = 0;                //ver si hacer un try para evitar que se caiga si no se pone un número 
 		do {
-			System.out.println("Bienvenido, ¿a qué menú le gustaria acceder? (1 para Administrador, 2 para Usuario:");
+			System.out.println("Bienvenido, ¿a qué menú le gustaria acceder? (1 para Administrador, 2 para Usuario):");
 			menu = s.nextInt();
 			if (menu != 1 && menu != 2) {
 				System.out.println("Error, valor no valido");
@@ -124,6 +125,8 @@ public class Main {
 				System.out.println("4) Comparar dos experimentos lado a lado");
 				System.out.println("5) Comparar CSV con matriz de confusión generada");
 				System.out.println("6) Salir");
+				System.out.println();
+				System.out.print("Ingrese una opcion: ");
 				accion = s.nextInt();
 				
 				switch (accion) {
@@ -147,11 +150,36 @@ public class Main {
 					break;
 //----------------------------Identifica el exp con mejor F1-score-------------------
 				case 2:
+					double mayorF1Score= -9999*9999;
+					String nombreExperimento= new String("");
+					for (int i = 0; i < lista_experimentos.length; i++) {
+						for (int j = 0; j < lista_metricas.length; j++) {
+							if(lista_metricas[j].equals("F1-Score") && matrizMetricas[i][j]>mayorF1Score ) {
+								mayorF1Score= matrizMetricas[i][j];
+								nombreExperimento= lista_experimentos[i];
+							}
+						}
+					}
+					System.out.println();
+					System.out.println("El experimento con mejor F1-Score es: "+ nombreExperimento +" con " + mayorF1Score+ " de Score");
+					System.out.println();
 					
 					break;
 //----------------------------Calcula el promedio global de cada métrica-------------------
 				case 3:
-					
+					System.out.println();
+					System.out.println("Promedio de las metricas:");
+					for (int c = 0; c < lista_metricas.length; c++) {
+						double sumaColumna= 0.0;
+						int f;
+						for (f = 0; f < lista_experimentos.length; f++) {
+							sumaColumna+= matrizMetricas[f][c];
+						}
+						System.out.print("El promedio de "+lista_metricas[c]+" ");
+						System.out.println("es "+sumaColumna/f+"  ");
+						
+					}
+					System.out.println();
 					break;
 //----------------------------Comparar dos exp lado a lado-------------------
 				case 4:
@@ -182,7 +210,11 @@ public class Main {
 				switch (accion) {
 //----------------------------Muestra la lista de experimento-------------------
 				case 1:
-					
+					System.out.println("Estos son los experimentos disponibles:");
+					for (int j = 0; j < lista_experimentos.length; j++) {
+						System.out.println("- "+lista_experimentos[j]+" ");
+					}
+					System.out.println();
 					break;
 //----------------------------Muestra matriz de confusión de un experimento------------------
 				case 2:
@@ -214,13 +246,8 @@ public class Main {
 				default:
 					break;
 				}
-				
 			} while (accion != 6);
-			
-			
 		}
-		
-		
 //----------------------------Cierra los Scanners----------------------------------------------------------
 		s.close();
 		experimentos.close();
@@ -243,8 +270,4 @@ public class Main {
 		}
 		return 0;
 	}
-		
-		
-
-
 }
