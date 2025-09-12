@@ -1,11 +1,11 @@
 //Lucas Riquelme /21943208-9 /ICCI / Matías Collao / 22060152-8 / ICCI//
-package Taller1;
+package taller1;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 
-public class main {
+public class Main {
 
 	public static void main(String[] args) throws IOException{
 //-------------------------------Lectura y Almacenimiento de Archivos .txt---------------------------------------------
@@ -182,7 +182,7 @@ public class main {
 					break;
 //----------------------------Comparar dos exp lado a lado-------------------
 				case 4:
-					System.out.println("Ingrese primer experimento a comparar:");
+					System.out.println("\nIngrese primer experimento a comparar:");
 					for (int i = 0; i < lista_experimentos.length; i++) {
 						System.out.println(i + 1 + ") " + lista_experimentos[i]);
 					}
@@ -197,45 +197,30 @@ public class main {
 					System.out.println();
 					System.out.println(lista_experimentos[eleccion_a] + "     " + lista_experimentos[eleccion_b]);
 					
-					for (int f = 0; f < lista_metricas.length; f++) {
-						for (int c = 0; c < lista_metricas.length; c++) {
-							if (lista_experimentos[f].equals(lista_experimentos[eleccion_a])) {
-								System.out.println(matrizMetricas[f][c]);
-								
-							}
-						}
+					
+					for (int c = 0; c < lista_metricas.length; c++) {
+						System.out.println(matrizMetricas[eleccion_a][c] + "     " + matrizMetricas[eleccion_b][c] + "   " + lista_metricas[c]);	
 					}
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					/*for (int f = 0; f < lista_experimentos.length; f++) {
-						if (f == 0) {
-							System.out.print("     ");
-							for (int j = 0; j < matrizMetricas.length; j++) {
-								System.out.format("%4s" ,"       "+ lista_experimentos[j] );
-							}
-							System.out.println();
-						}
-						System.out.print(lista_metricas[f] );
-						for (int c = 0; c < lista_metricas.length; c++) {
-							System.out.format("    " + matrizMetricas[f][c] + "   ");
-						}
-						System.out.println();
-					}
-					System.out.println(" ");*/
-				
+					System.out.println();
+					//if
 					break;
 //----------------------------Comparar CSV con matriz de confusión generada-------------------
 				case 5:
+					for (int i = 0; i < lista_experimentos.length; i++) {      	
+					if (i == 0) {
+						System.out.print("     ");
+						for (int j = 0; j < matriz.length; j++) {
+							System.out.printf("%4s" , listColumna[j]);
+						}
+						System.out.println();
+					}
+					System.out.print("Exp" + (i + 1) + " ");
+					for (int j = 0; j < listColumna.length; j++) {
+						System.out.format("%4d", matriz[i][j]);
+					}
+					System.out.println();
+				}
+				System.out.println(" ");
 					
 					break;
 //-------------------------------------------------------------------------------------					
